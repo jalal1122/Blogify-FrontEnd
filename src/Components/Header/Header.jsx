@@ -5,7 +5,6 @@ import SearchBar from "./SearchBar";
 const Header = () => {
   // Initialize Redux dispatch and selectors
   // to access color state and mode
-  const bgColor = useSelector((state) => state.color.colors.bgColor);
   const textColor = useSelector((state) => state.color.colors.textColor);
 
   // render the header component

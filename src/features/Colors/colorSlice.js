@@ -7,22 +7,21 @@ const colorSlice = createSlice({
   initialState: {
     mode: mode,
     colors: {
-      bgColor: "#ffffff",
       textColor: "#000000",
       primaryColor: "#4B6BFB",
       secondaryColor: "#F4F4F5",
-      fullbgColor: "#181A2A"
+      bgColor: "#181A2A",
     },
   },
   reducers: {
     getMode: (state, action) => {
       state.mode = action.payload;
       if (action.payload === "dark") {
-        state.colors.bgColor = "#000000";
-        state.colors.textColor = "#ffffff";
+        state.colors.textColor = "#000";
+        state.colors.bgColor = "#fff";
       } else {
-        state.colors.bgColor = "#ffffff";
-        state.colors.textColor = "#000000";
+        state.colors.textColor = "#fff";
+        state.colors.bgColor = "#181A2A";
       }
     },
   },

@@ -1,4 +1,4 @@
-import "../../public/hero.jpg";
+import "../../../public/hero.jpg";
 
 const Hero = () => {
   return (
