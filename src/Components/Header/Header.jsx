@@ -12,9 +12,8 @@ const Header = () => {
   return (
     <>
       <header
-        className="App-header flex justify-around items-center w-full p-3"
+        className="App-header flex justify-between items-center w-[1200px] p-3 mx-auto"
         style={{
-          backgroundColor: bgColor,
           color: textColor,
         }}
       >

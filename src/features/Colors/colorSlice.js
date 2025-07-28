@@ -11,6 +11,7 @@ const colorSlice = createSlice({
       textColor: "#000000",
       primaryColor: "#4B6BFB",
       secondaryColor: "#F4F4F5",
+      fullbgColor: "#181A2A"
     },
   },
   reducers: {
