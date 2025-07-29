@@ -212,7 +212,6 @@ const Register = () => {
                         accept="image/*"
                         className="w-full p-2 border-2 border-gray-300 rounded"
                         onChange={onImageChange}
-                        required
                       />
                       <FaFile size={20} className="absolute right-2 top-3" />
                     </div>

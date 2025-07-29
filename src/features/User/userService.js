@@ -1,12 +1,23 @@
 import axios from "axios";
 
-const API_URL = "/user/register"; // Adjusted to use relative path
+const API_URL = "api/user/register"; // Adjusted to use relative path
 
 // Register user
 const RegisterUser = async (userData) => {
-  const response = await axios.post(API_URL, userData, {
+  // Create FormData for file upload
+  const formData = new FormData();
+  formData.append("username", userData.username);
+  formData.append("email", userData.email);
+  formData.append("password", userData.password);
+
+  // Only append profile picture if it exists
+  if (userData.profilePicture) {
+    formData.append("profilePicture", userData.profilePicture);
+  }
+
+  const response = await axios.post(API_URL, formData, {
     headers: {
-      // Do not set 'Content-Type' for FormData, let browser handle it
+      // Don't set Content-Type, let browser set it with proper boundary for FormData
     },
   });
 
