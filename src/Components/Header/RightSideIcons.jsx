@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { getMode } from "../../features/Colors/colorSlice.js";
 import { Link } from "react-router";
+import { logoutUser } from "../../features/User/userSlice.js";
 
 const RightSideIcons = () => {
   const [isUserLoggedIn, setisUserLoggedIn] = useState(false);
@@ -30,7 +31,13 @@ const RightSideIcons = () => {
     <div className="flex justify-between items-center gap-4">
       {isUserLoggedIn ? (
         // Logout Icon
-        <Link to="/" onClick={() => setisUserLoggedIn(false)}>
+        <Link
+          to="/"
+          onClick={() => {
+            setisUserLoggedIn(false);
+            dispatch(logoutUser());
+          }}
+        >
           <FaSignOutAlt
             size={25}
             className="hover:scale-110 transition-transform duration-300"

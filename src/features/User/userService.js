@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "api/user/register"; // Adjusted to use relative path
+const API_URL = "api/user"; // Adjusted to use relative path
 
 // Register user
 const RegisterUser = async (userData) => {
@@ -15,11 +15,18 @@ const RegisterUser = async (userData) => {
     formData.append("profilePicture", userData.profilePicture);
   }
 
-  const response = await axios.post(API_URL, formData, {
+  const response = await axios.post(`${API_URL}/register`, formData, {
     headers: {
       // Don't set Content-Type, let browser set it with proper boundary for FormData
     },
   });
+
+  return response.data;
+};
+
+// Login User
+const loginUser = async (userData) => {
+  const response = await axios.post(`${API_URL}/login`, userData);
 
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
@@ -28,6 +35,17 @@ const RegisterUser = async (userData) => {
   return response.data;
 };
 
+// Logout User
+const logoutUser = () => {
+  const response = axios.get(`${API_URL}/logout`);
+
+  if (response.data) {
+    localStorage.removeItem("user");
+  }
+};
+
 export const userService = {
   RegisterUser,
+  loginUser,
+  logoutUser,
 };

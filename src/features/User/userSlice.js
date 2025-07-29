@@ -23,6 +23,39 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+// Login User
+export const loginUser = createAsyncThunk(
+  "user/login",
+  async (userData, thunkApi) => {
+    try {
+      return await userService.loginUser(userData);
+    } catch (error) {
+      {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        return thunkApi.rejectWithValue(message);
+      }
+    }
+  }
+);
+
+// Logout User
+export const logoutUser = createAsyncThunk("user/logout", async (thunkApi) => {
+  try {
+    return await userService.logoutUser();
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkApi.rejectWithValue(message);
+  }
+});
+
 const initialState = {
   user: user,
   isLoading: false,
@@ -44,6 +77,8 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+
+      // Handle register user actions
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -57,6 +92,38 @@ const userSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.user = null;
+      })
+
+      // Handle login user actions
+      .addCase(loginUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+
+      // Handle logout user actions
+      .addCase(logoutUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = null; // Clear user data on logout
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null; // Ensure user is cleared on error
       });
   },
 });

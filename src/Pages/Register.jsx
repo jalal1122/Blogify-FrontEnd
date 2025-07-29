@@ -4,6 +4,7 @@ import { FaUser, FaEnvelope, FaLock, FaFile } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Loader from "../Components/Loader";
 import { registerUser, reset } from "../features/User/userSlice";
+import "./placeholderColor.css";
 
 const Register = () => {
   // initialize dispatch
@@ -40,6 +41,13 @@ const Register = () => {
   // State to manage password match validation
   const [passwordMatch, setPasswordMatch] = useState(true);
 
+  // State to manage password validation
+  const [passwordValid, setPasswordValid] = useState(true);
+
+  // Password validation regex
+  const passwordRegex =
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])(?=.*[a-z]).{8,}$/;
+
   // State to manage user data
   const [userData, setuserData] = useState({
     username: "",
@@ -51,10 +59,22 @@ const Register = () => {
 
   // Function to handle input changes
   const onchange = (e) => {
+    const { name, value } = e.target;
+
     setuserData({
       ...userData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+
+    // Validate password in real-time
+    if (name === "password") {
+      setPasswordValid(passwordRegex.test(value));
+    }
+
+    // Reset password match error when user types
+    if (name === "password" || name === "password2") {
+      setPasswordMatch(true);
+    }
   };
 
   // Function to handle image upload
@@ -85,6 +105,12 @@ const Register = () => {
   const submitForm = (e) => {
     e.preventDefault();
 
+    // Validate password strength
+    if (!passwordRegex.test(userData.password)) {
+      setPasswordValid(false);
+      return;
+    }
+
     // check if passwords match
     if (userData.password !== userData.password2) {
       setPasswordMatch(false);
@@ -109,7 +135,7 @@ const Register = () => {
     <>
       <Header />
       <div
-        className="flex flex-col justify-center items-center gap-5 w-[1200px] mx-auto my-10 p-5 border-2 border-gray-300"
+        className="flex flex-col justify-center items-center gap-5 w-[1200px] mx-auto my-10 p-5"
         style={{ color: textColor, backgroundColor: bgColor }}
       >
         {/* Heading */}
@@ -135,7 +161,7 @@ const Register = () => {
           </div>
         ) : (
           <>
-            <form onSubmit={submitForm} encType="multipart/form-data">
+            <form onSubmit={submitForm}>
               {/* if errorMessage contains error then show error else form inputs */}
               {errorMessage ? (
                 <div className="text-red-500 mb-3">{errorMessage}</div>
@@ -146,6 +172,10 @@ const Register = () => {
                     <div className="userDiv relative">
                       <input
                         type="text"
+                        style={{
+                          color: textColor,
+                          "--placeholder-color": textColor,
+                        }}
                         name="username"
                         placeholder="Username"
                         className="w-full p-2 border-2 border-gray-300 rounded"
@@ -159,6 +189,10 @@ const Register = () => {
                     <div className="emailDiv relative">
                       <input
                         type="email"
+                        style={{
+                          color: textColor,
+                          "--placeholder-color": textColor,
+                        }}
                         name="email"
                         placeholder="Email"
                         className="w-full p-2 border-2 border-gray-300 rounded"
@@ -175,6 +209,10 @@ const Register = () => {
                     <div className="passwordDiv relative">
                       <input
                         type="password"
+                        style={{
+                          color: textColor,
+                          "--placeholder-color": textColor,
+                        }}
                         name="password"
                         placeholder="Password"
                         className="w-full p-2 border-2 border-gray-300 rounded"
@@ -184,10 +222,27 @@ const Register = () => {
                       <FaLock size={20} className="absolute right-2 top-3" />
                     </div>
 
+                    {/* Password Validation Error */}
+                    {!passwordValid && userData.password && (
+                      <div className="text-red-500 text-sm">
+                        Password must contain at least 8 characters, including:
+                        <ul className="list-disc list-inside ml-2">
+                          <li>One uppercase letter (A-Z)</li>
+                          <li>One lowercase letter (a-z)</li>
+                          <li>One digit (0-9)</li>
+                          <li>One special character (!@#$%^&*)</li>
+                        </ul>
+                      </div>
+                    )}
+
                     {/* Password Div */}
                     <div className="passwordDiv relative">
                       <input
                         type="password"
+                        style={{
+                          color: textColor,
+                          "--placeholder-color": textColor,
+                        }}
                         name="password2"
                         placeholder="Confirm Password"
                         className="w-full p-2 border-2 border-gray-300 rounded"
