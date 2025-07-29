@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <>
       <header
-        className="App-header flex justify-between items-center w-[1200px] p-3 mx-auto"
+        className="App-header flex justify-between items-center w-[1200px] py-3 mx-auto"
         style={{
           color: textColor,
         }}

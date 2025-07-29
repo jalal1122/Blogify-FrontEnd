@@ -1,10 +1,10 @@
-import "../../../public/hero.jpg";
+import heroImage from "../../assets/hero.jpg";
 
 const Hero = () => {
   return (
     <>
       <div className="w-[1200px] relative bg-gray-200 flex items-center justify-center mx-auto my-10">
-        <img src="hero.jpg" className="" alt="hero iamge" />
+        <img src={heroImage} className="" alt="hero image" />
         <div className="absolute bottom-[-35px] left-20 w-[400px] text-center bg-white py-3 px-5 border-2 border-gray-300">
           <h1 className="text-4xl font-bold text-gray-800">
             Welcome to Blogify

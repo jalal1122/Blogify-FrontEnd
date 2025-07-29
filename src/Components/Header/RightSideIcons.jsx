@@ -1,8 +1,9 @@
-import { FaSearch, FaUser, FaMoon, FaSun, FaSignOutAlt } from "react-icons/fa";
+import { FaUser, FaMoon, FaSun, FaSignOutAlt } from "react-icons/fa";
 import { MdLogin } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { getMode } from "../../features/Colors/colorSlice.js";
+import { Link } from "react-router";
 
 const RightSideIcons = () => {
   const [isUserLoggedIn, setisUserLoggedIn] = useState(false);
@@ -28,32 +29,42 @@ const RightSideIcons = () => {
   return (
     <div className="flex justify-between items-center gap-4">
       {isUserLoggedIn ? (
-        <FaSignOutAlt
-          size={25}
-          className="hover:scale-110 transition-transform duration-300"
-          style={{
-            color: textColor,
-            cursor: "pointer",
-          }}
-        />
+        // Logout Icon
+        <Link to="/" onClick={() => setisUserLoggedIn(false)}>
+          <FaSignOutAlt
+            size={25}
+            className="hover:scale-110 transition-transform duration-300"
+            style={{
+              color: textColor,
+              cursor: "pointer",
+            }}
+          />
+        </Link>
       ) : (
         <>
-          <MdLogin
-            size={25}
-            className="hover:scale-110 transition-transform duration-300"
-            style={{
-              color: textColor,
-              cursor: "pointer",
-            }}
-          />
-          <FaUser
-            size={25}
-            className="hover:scale-110 transition-transform duration-300"
-            style={{
-              color: textColor,
-              cursor: "pointer",
-            }}
-          />
+          {/* Login Icon */}
+          <Link to="/login">
+            <MdLogin
+              size={25}
+              className="hover:scale-110 transition-transform duration-300"
+              style={{
+                color: textColor,
+                cursor: "pointer",
+              }}
+            />
+          </Link>
+
+          {/* Register Icon */}
+          <Link to="/register">
+            <FaUser
+              size={25}
+              className="hover:scale-110 transition-transform duration-300"
+              style={{
+                color: textColor,
+                cursor: "pointer",
+              }}
+            />
+          </Link>
         </>
       )}
 

@@ -3,6 +3,7 @@ import Dashboard from "./Pages/Dashboard";
 import { useSelector, useDispatch } from "react-redux";
 import { getMode } from "./features/Colors/colorSlice.js";
 import { useEffect } from "react";
+import Router from "./Components/Router.jsx";
 
 function App() {
   // Initialize Redux dispatch and selectors
@@ -17,18 +18,18 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("mode")) {
       dispatch(getMode(localStorage.getItem("mode")));
+      document.body.style.backgroundColor = bgColor;
     } else {
       localStorage.setItem("mode", "light");
       dispatch(getMode("light"));
+      document.body.style.backgroundColor = bgColor;
     }
   }, [mode, dispatch, bgColor, textColor]);
 
   // Render the main application component
   return (
     <>
-      <div style={{ backgroundColor: bgColor }}>
-        <Dashboard />
-      </div>
+      <Router />
     </>
   );
 }
