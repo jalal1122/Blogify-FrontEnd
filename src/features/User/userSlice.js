@@ -44,17 +44,26 @@ export const loginUser = createAsyncThunk(
 );
 
 // Logout User
-export const logoutUser = createAsyncThunk("user/logout", async (thunkApi) => {
-  try {
-    return await userService.logoutUser();
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkApi.rejectWithValue(message);
+export const logoutUser = createAsyncThunk(
+  "user/logout",
+  async (_, thunkApi) => {
+    try {
+      console.log("Attempting to logout user...");
+      const result = await userService.logoutUser();
+      console.log("Logout successful:", result);
+      return result;
+    } catch (error) {
+      console.error("Logout failed:", error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkApi.rejectWithValue(message);
+    }
   }
-});
+);
 
 const initialState = {
   user: user,
@@ -112,14 +121,17 @@ const userSlice = createSlice({
 
       // Handle logout user actions
       .addCase(logoutUser.pending, (state) => {
+        console.log("Logout pending...");
         state.isLoading = true;
       })
       .addCase(logoutUser.fulfilled, (state) => {
+        console.log("Logout fulfilled, clearing user state");
         state.isLoading = false;
         state.isSuccess = true;
         state.user = null; // Clear user data on logout
       })
       .addCase(logoutUser.rejected, (state, action) => {
+        console.log("Logout rejected:", action.payload);
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

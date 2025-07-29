@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from "../../utils/axios.js";
 
-const API_URL = "api/user"; // Adjusted to use relative path
+const API_URL = "/api/user"; // Use absolute path since base URL is set
 
 // Register user
 const RegisterUser = async (userData) => {
@@ -36,12 +36,14 @@ const loginUser = async (userData) => {
 };
 
 // Logout User
-const logoutUser = () => {
-  const response = axios.get(`${API_URL}/logout`);
+const logoutUser = async () => {
+  const response = await axios.get(`${API_URL}/logout`);
 
   if (response.data) {
     localStorage.removeItem("user");
   }
+
+  return response.data;
 };
 
 export const userService = {

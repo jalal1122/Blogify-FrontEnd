@@ -1,19 +1,19 @@
 import { FaUser, FaMoon, FaSun, FaSignOutAlt } from "react-icons/fa";
 import { MdLogin } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
 import { getMode } from "../../features/Colors/colorSlice.js";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { logoutUser } from "../../features/User/userSlice.js";
 
 const RightSideIcons = () => {
-  const [isUserLoggedIn, setisUserLoggedIn] = useState(false);
-
   // Initialize Redux dispatch and selectors
   // to access color state and mode
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const mode = useSelector((state) => state.color.mode);
   const textColor = useSelector((state) => state.color.colors.textColor);
+  const user = useSelector((state) => state.user.user); // Get user from Redux
 
   const toggleTheme = () => {
     const newMode = mode === "dark" ? "light" : "dark";
@@ -21,11 +21,8 @@ const RightSideIcons = () => {
     dispatch(getMode(newMode));
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("user")) {
-      setisUserLoggedIn(true);
-    }
-  }, [isUserLoggedIn]);
+  // Check if user is logged in based on Redux state or localStorage
+  const isUserLoggedIn = user || localStorage.getItem("user");
 
   return (
     <div className="flex justify-between items-center gap-4">
@@ -34,8 +31,8 @@ const RightSideIcons = () => {
         <Link
           to="/"
           onClick={() => {
-            setisUserLoggedIn(false);
             dispatch(logoutUser());
+            navigate("/");
           }}
         >
           <FaSignOutAlt
