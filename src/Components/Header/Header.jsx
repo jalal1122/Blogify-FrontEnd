@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import RightSideIcons from "./RightSideIcons";
 import SearchBar from "./SearchBar";
+import { Link } from "react-router";
 
 const Header = () => {
   // Initialize Redux dispatch and selectors
@@ -25,20 +26,20 @@ const Header = () => {
               cursor: "pointer",
             }}
           >
-            Blogify
+            <Link to={"/"}>Blogify</Link>
           </h1>
         </div>
 
         {/* Nav Links Div */}
         <div className="div">
-          <ul className="flex justify-between items-center gap-4 font-semibold text-lg">
+          <ul className="flex justify-between items-center gap-5 font-semibold text-lg">
             <li
               style={{
                 color: textColor,
                 cursor: "pointer",
               }}
             >
-              Home
+              <Link to={"/"}>Home</Link>
             </li>
             <li
               style={{
